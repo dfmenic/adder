@@ -28,6 +28,9 @@
   <div class="result-label">Corrected Final Gravity (SG)</div>
   <div class="result-value" id="corrFG">—</div>
 
+  <div class="result-label">Estimated ABV</div>
+  <div class="result-value" id="abv">—</div>
+
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js');
@@ -39,6 +42,7 @@
 
       if (isNaN(ogSG) || isNaN(fgSG) || ogSG <= 1 || fgSG <= 1) {
         document.getElementById('corrFG').textContent = '—';
+        document.getElementById('abv').textContent = '—';
         return;
       }
 
@@ -46,9 +50,7 @@
       const fgBrix = (fgSG - 1) / 0.004;
 
       const corrFG = 1.0000 - 0.00085683 * ogBrix + 0.0034941 * fgBrix;
+      const abv = (ogSG - corrFG) * 131.25;
 
       document.getElementById('corrFG').textContent = corrFG.toFixed(4);
-    }
-  </script>
-</body>
-</html>
+      document.getElementById('abv').textContent = abv.toFixed(1) + '

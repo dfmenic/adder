@@ -1,7 +1,7 @@
 {
-  "name": "Adder",
-  "short_name": "Adder",
-  "start_url": "adder.html",
+  "name": "Refrac Calc",
+  "short_name": "Refrac Calc",
+  "start_url": "refrac.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#2196F3",

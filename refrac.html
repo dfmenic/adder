@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Refrac Calc</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    body { font-family: sans-serif; max-width: 400px; margin: 40px auto; padding: 20px; text-align: center; }
+    label { display: block; font-size: 1em; margin-top: 16px; text-align: left; }
+    input { font-size: 1.4em; width: 100%; margin: 4px 0; padding: 8px; box-sizing: border-box; }
+    .result-label { font-size: 0.9em; color: #555; margin-top: 20px; text-align: left; }
+    .result-value { font-size: 2em; font-weight: bold; }
+    hr { margin: 24px 0; }
+  </style>
+</head>
+<body>
+  <h2>Refrac Calc</h2>
+
+  <label>OG Refractometer (SG, e.g. 1.055)</label>
+  <input type="number" id="og" step="0.001" placeholder="1.055" oninput="calc()">
+
+  <label>FG Refractometer (SG, e.g. 1.018)</label>
+  <input type="number" id="fg" step="0.001" placeholder="1.018" oninput="calc()">
+
+  <hr>
+
+  <div class="result-label">Corrected Final Gravity (SG)</div>
+  <div class="result-value" id="corrFG">—</div>
+
+  <div class="result-label">Estimated ABV</div>
+  <div class="result-value" id="abv">—</div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+
+    function calc() {
+      const ogSG = parseFloat(document.getElementById('og').value);
+      const fgSG = parseFloat(document.getElementById('fg').value);
+
+      if (isNaN(ogSG) || isNaN(fgSG) || ogSG <= 1 || fgSG <= 1) {
+        document.getElementById('corrFG').textContent = '—';
+        document.getElementById('abv').textContent = '—';
+        return;
+      }
+
+      const ogBrix = (ogSG - 1) / 0.004;
+      const fgBrix = (fgSG - 1) / 0.004;
+
+      const corrFG = 1.0000 - 0.00085683 * ogBrix + 0.0034941 * fgBrix;
+      const abv = (ogSG - corrFG) * 131.25;
+
+      document.getElementById('corrFG').textContent = corrFG.toFixed(4);
+      document.getElementById('abv').textContent = abv.toFixed(1) + '%';
+    }
+  </script>
+</body>
+</html>

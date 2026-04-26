@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adder</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    body { font-family: sans-serif; max-width: 400px; margin: 60px auto; padding: 20px; text-align: center; }
+    input { font-size: 1.5em; width: 100%; margin: 10px 0; padding: 8px; box-sizing: border-box; }
+    #result { font-size: 2em; margin-top: 20px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h2>Adder</h2>
+  <input type="number" id="n1" placeholder="First number" oninput="add()">
+  <input type="number" id="n2" placeholder="Second number" oninput="add()">
+  <div id="result"></div>
+  <script>
+    function add() {
+      const a = parseFloat(document.getElementById('n1').value);
+      const b = parseFloat(document.getElementById('n2').value);
+      if (!isNaN(a) && !isNaN(b)) {
+        document.getElementById('result').textContent = a + b;
+      } else {
+        document.getElementById('result').textContent = '';
+      }
+    }
+  </script>
+</body>
+</html>
